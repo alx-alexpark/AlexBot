@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/commands_help.css') }}">
+    <div class="jumbotron">
+      <h2 id="title">AlexBot - Commands</h2>
+      <h4>AlexBot's Prefix is "lol"</h4>
+      <h4>Roblox Related Commands</h4>
+      <ul>
+        <li>lol uid {Roblox Username}. | Returns the Roblox Userid of the person with the username specified</li>
+        <li>lol rbxusername {@mention|Discord Userid} {"mention"|"id"} | This returns the Roblox Username and Userid from someone's Discord Userid or mention/ping. At the end, you type "mention" or "id" to select what type of argument you are putting in</li>
+      </ul>
+
+      <h4>Discord Related Commands</h4>
+      <ul>
+        <li>lol spamping {@user} {times} {optional:message} | It is obvious what this does</li>
+        <li>lol spam {times} {message} | Spams your message the amount of times you specify</li>
+      </ul>
+
+      <h4>General Bot Commands</h4>
+      <ul>
+        <li>lol latency | This returns the current latency in seconds</li>
+        <li>lol helpme | Gives you help</li>
+        <li>lol suggest {suggestion} | Suggest features :) Notice: Currently Disabled</li>
+        <li>lol info | Information about the bot</li>
+      </ul>
+
+      <h4>Fun Commands</h4>
+      <ul>
+        <li>lol iss | This tells you the position of the International Space Station</li>
+        <li>lol numberinfo {number} | Gives you facts about the number you input</li>
+        <li>lol github {repository name} | Searches github for a repository with the name you provide</li>
+        <li>lol botkahoot {game pin} | Puts bots in the Kahoot game of the game pin you provide</li>
+      </ul>
+      <h4>Actually Useful Commands</h4>
+      <ul>
+        <li>lol bitcoin | Gets the price of a Bitcoin from coinbase api</li>
+      </ul>
+
+
+    </div>
+
+{% endblock %}
