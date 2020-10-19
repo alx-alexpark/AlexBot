@@ -11,6 +11,7 @@ import bs4
 from kahoot import client
 import threading
 import website
+import sys
 
 
 
@@ -123,7 +124,7 @@ async def help(ctx):
 
 @bot.command(name='nothing')
 async def nothing(ctx):
-    await bot.delete_message(ctx.message)
+    await ctx.message.delete()
 
 
 @bot.command(name='latency')
@@ -242,6 +243,15 @@ async def spam(ctx, times, *args):
         for i in range(int(times)):
             await ctx.send(message)
 
+@bot.command(name='restart')
+async def restartbot(ctx):
+    website.shutdownasync()
+    requests.get(f"http://kahoot-spammer-api.alexairbus380.repl.co/restart")
+    await bot.change_presence(activity=discord.Game(name='Restarting...'))
+    await ctx.send("Restarting... please wait")
+    os.system("python3 main.py")
+    sys.exit();
+
 
 @bot.command(name='load') #weird thing just ignore it for now
 async def load(ctx, delay):
@@ -278,7 +288,9 @@ async def info(ctx):
 @bot.command(name='botkahoot')
 async def kahoot(ctx, code):
     game_code = int(code)
+    
     await ctx.send(f"Nuking Kahoot game {code} with bots")
+    await ctx.send("Remember to run `lol restart` before using the kahoot botter")
     def thread1(): 
         
         for i in range(100000):
@@ -347,12 +359,35 @@ async def kahoot(ctx, code):
     g.start()
     h.start()
 
+    requests.get(f"http://kahoot-spammer-api.alexairbus380.repl.co/spam?code={game_code}")
 
 
+@bot.command(name='broadcast')
+async def broadcast(ctx, *message):
+    message = ' '.join(message)
+    if ctx.message.author.id == 662366683884814347:
+        await ctx.send("Broadcasting")
 
-        
-    
+        for guild in bot.guilds:
+            for channel in guild.channels:
+                if channel.name == 'general' or 'chat':
+                    await channel.send(message)
+    else:
+        await ctx.send("NO PERMISSION!")
 
+@bot.command(name='sbroadcast')
+async def sbroadcast(ctx, *message):
+    message = ' '.join(message)
+    if ctx.message.author.id == 662366683884814347:
+        await ctx.send("Broadcasting")
+
+        for channel in ctx.guild.channels:
+            channel = bot.get_channel(channel.id)
+            await channel.send(message)
+
+    else:
+        await ctx.send("NO PERMISSION!")
+ 
 
 website.start()
 bot.run(TOKEN)
