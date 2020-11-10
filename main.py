@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import requests
+from replit import db
 import json
 import os
 import time
