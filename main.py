@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import requests
-from replit import db
+#from replit import db
 import json
 import os
 import time
@@ -9,14 +9,15 @@ import io
 import asyncio
 import aiohttp
 import bs4
-from kahoot import client
+#from kahoot import client
 import threading
 import website
 import sys
+import random
+from PIL import Image
 
 
-
-kahoot_bot = client()
+#kahoot_bot = client()
 
 bot = commands.Bot(command_prefix='lol ')
 TOKEN = os.getenv("TOKEN")
@@ -388,7 +389,58 @@ async def sbroadcast(ctx, *message):
 
     else:
         await ctx.send("NO PERMISSION!")
- 
+
+
+@bot.command(name="getmsg") # credits to supercolbat
+async def getmsg(ctx, channel: discord.TextChannel):
+    loadingmsg = await ctx.send("<a:discord_loading:779085179657781251>")
+    start = time.time()
+    
+    messages = await channel.history(limit=None).flatten()
+    length = len(messages)
+    chosenmsg = random.choice(messages)
+    
+    embed=discord.Embed(color=0xa80000)
+    embed.set_thumbnail(url=chosenmsg.author.avatar_url)
+    embed.add_field(name=f"Typed by {chosenmsg.author}", value=f"{chosenmsg.content}\n\n{chosenmsg.jump_url}", inline=False)
+    await loadingmsg.edit(content=f"||{ctx.message.author.mention}||\n\nTime: **{time.time()-start} seconds**\nChose from {length} message{'s' if length else ''}", embed=embed)
+    
+    
+@bot.command(name="msgquery") # original code by supercolbat, changes by me
+async def msgquery(ctx, channel: discord.TextChannel, *args):
+    args = ' '.join(args)
+
+    start = time.time()
+    embed=discord.Embed(color=0xa80000)
+    
+    # loadingmsg = await ctx.send("<a:loading:778279344346234941>")
+    loadingmsg = await ctx.send("<a:discord_loading:779085179657781251>")
+    messages = await channel.history(limit=None).flatten()
+    length = len(messages)
+    counter = 0
+    # chosenmsg = []
+
+    for i in messages:
+        if args in i.content:
+            embed.add_field(name=f"{i.author.display_name}", value=i.content)
+            # chosenmsg.append(i.content)
+            counter += 1
+        
+    # {chosenmsg.content}\n{chosenmsg.jump_url}", inline=False)
+    await loadingmsg.edit(content=f"\n\nTime: **{time.time()-start} seconds**\nLooked through {length} message{'s' if length else ''}\nFound {counter} occurances of {args}", embed=embed)
+    
+@bot.command(name='pp')
+async def pp(ctx, user: discord.Member):
+    with requests.get(user.avatar_url) as r:
+        img_data = r.content
+    with open('piccys/pp.jpg', 'wb') as handler:
+        handler.write(img_data)
+    im = Image.open("piccys/pp.jpg")
+    im = im.convert("RGB")
+    im.resize((256,256))
+    im.save("piccys/pp.jpg")
+    file = discord.File("piccys/pp.jpg")
+    await ctx.send(file=file)
 
 website.start()
 bot.run(TOKEN)
