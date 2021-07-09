@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+    <style>
+        @import url(https://cdn.jsdelivr.net/gh/tonsky/FiraCode@4/distr/fira_code.css);
+        body { font-family: 'Fira Code', monospace; }
+
+    </style>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/commands_help.css') }}">
     <div class="jumbotron">
       <h2 id="title">AlexBot - Commands</h2>

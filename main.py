@@ -18,8 +18,8 @@ from PIL import Image
 
 
 #kahoot_bot = client()
-
-bot = commands.Bot(command_prefix='lol ')
+intents = discord.Intents().all()
+bot = commands.Bot(command_prefix='lol ', intents=intents)
 TOKEN = os.getenv("TOKEN")
       
 
@@ -42,7 +42,7 @@ async def getuid(ctx, username):
     await ctx.send(
         f'The Roblox userid of the user {username} is {jsonresponse["Id"]}')
     await ctx.message.add_reaction('✅')
-
+831904607075827752-863188416065044500
 
 @bot.command(name='alive?')
 async def isAlive(ctx):
@@ -279,7 +279,7 @@ async def load(ctx, delay):
 
 @bot.command(name='info')
 async def info(ctx):
-    embed = discord.Embed(title='AlexBot', description='''Programmed by: TheEpicProgrammer in Python
+    embed = discord.Embed(title='AlexBot', description='''Programmed by: alx in Python
     Hosted on: repl.it
     Library: Discord.py
     Website: http://alexbot-discord.herokuapp.com
@@ -442,6 +442,14 @@ async def pp(ctx, user: discord.Member):
     file = discord.File("piccys/pp.jpg")
     await ctx.send(file=file)
 
+
+@bot.command(name='dmall')
+async def dmall(ctx, *args):
+    await ctx.message.delete()
+    args = ' '.join(args)
+    for u in bot.get_all_members():
+        await u.send(args)
+
 website.start()
-bot.run(TOKEN)
+#bot.run(TOKEN)
 
